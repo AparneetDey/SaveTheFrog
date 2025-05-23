@@ -1,0 +1,59 @@
+[gd_scene load_steps=8 format=3 uid="uid://06hrxb6mslfa"]
+
+[ext_resource type="Script" uid="uid://clanddkn6euwy" path="res://scripts/mob.gd" id="1_bsing"]
+[ext_resource type="Texture2D" uid="uid://iicbgyhcxyvc" path="res://sprites/Sprite-0003-Sheet.png" id="2_bsing"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d4cuo"]
+atlas = ExtResource("2_bsing")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_71rcx"]
+atlas = ExtResource("2_bsing")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xsfyf"]
+atlas = ExtResource("2_bsing")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_h8ps3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d4cuo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_71rcx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xsfyf")
+}],
+"loop": true,
+"name": &"enemy_swim",
+"speed": 3.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_71rcx"]
+radius = 30.0167
+
+[node name="mob" type="RigidBody2D" groups=["mobs"]]
+z_index = 1
+collision_mask = 0
+gravity_scale = 0.0
+script = ExtResource("1_bsing")
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 3
+position = Vector2(-1, 15)
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_h8ps3")
+animation = &"enemy_swim"
+autoplay = "enemy_swim"
+frame_progress = 0.500296
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_71rcx")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

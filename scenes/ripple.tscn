@@ -1,0 +1,73 @@
+[gd_scene load_steps=11 format=3 uid="uid://c4xqddre73c0n"]
+
+[ext_resource type="Script" uid="uid://fgpvcvd0gvr8" path="res://scripts/ripple.gd" id="1_soc2n"]
+[ext_resource type="Texture2D" uid="uid://opgf2ujs8ka8" path="res://sprites/Sprite-0001-Sheet.png" id="2_ljlil"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k6ygx"]
+atlas = ExtResource("2_ljlil")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6ss4j"]
+atlas = ExtResource("2_ljlil")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8xkuy"]
+atlas = ExtResource("2_ljlil")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o8p7s"]
+atlas = ExtResource("2_ljlil")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k5pvf"]
+atlas = ExtResource("2_ljlil")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_58gg1"]
+atlas = ExtResource("2_ljlil")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1icm7"]
+atlas = ExtResource("2_ljlil")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_sqt3x"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k6ygx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6ss4j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8xkuy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o8p7s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k5pvf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_58gg1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1icm7")
+}],
+"loop": false,
+"name": &"ripple",
+"speed": 7.5
+}]
+
+[node name="ripple" type="Node2D"]
+script = ExtResource("1_soc2n")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 3
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_sqt3x")
+animation = &"ripple"
+autoplay = "ripple"
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
