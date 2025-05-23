@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://biqmmseeoxjlo"]
+[gd_scene load_steps=3 format=3 uid="uid://biqmmseeoxjlo"]
 
 [ext_resource type="Script" uid="uid://007oilqe8ahe" path="res://scripts/hud.gd" id="1_ahhtf"]
+[ext_resource type="Texture2D" uid="uid://baxpmvsmv71au" path="res://sprites/pause.icon.png" id="2_oo0fn"]
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_ahhtf")
@@ -47,7 +48,15 @@ text = "START"
 wait_time = 2.0
 one_shot = true
 
-[node name="controlGuide1" type="Label" parent="."]
+[node name="controlGuide" type="Node2D" parent="."]
+
+[node name="controlGuide2" type="Label" parent="controlGuide"]
+offset_right = 156.0
+offset_bottom = 39.0
+theme_override_font_sizes/font_size = 28
+text = "Esc - Pause"
+
+[node name="controlGuide1" type="Label" parent="controlGuide"]
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
@@ -63,11 +72,30 @@ theme_override_font_sizes/font_size = 28
 text = "Left Click - Move
 Rigth Click - Dash"
 
-[node name="controlGuide2" type="Label" parent="."]
-offset_right = 156.0
-offset_bottom = 39.0
-theme_override_font_sizes/font_size = 28
-text = "Esc - Pause"
+[node name="MobileButton" type="Node2D" parent="."]
+
+[node name="dashButton" type="Button" parent="MobileButton"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -205.0
+offset_top = -129.0
+offset_right = -68.0
+offset_bottom = -54.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 48
+text = "DASH"
+
+[node name="pauseButton" type="Button" parent="MobileButton"]
+offset_left = 14.0
+offset_top = 11.0
+offset_right = 70.0
+offset_bottom = 67.0
+theme_override_font_sizes/font_size = 48
+icon = ExtResource("2_oo0fn")
 
 [connection signal="pressed" from="startButton" to="." method="_on_start_button_pressed"]
 [connection signal="timeout" from="messageTimer" to="." method="_on_message_timer_timeout"]

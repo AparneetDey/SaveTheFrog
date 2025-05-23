@@ -1,8 +1,11 @@
 extends Node
+class_name parentScript
 
 @export var mob_scene: PackedScene
 var score
 var game_started = false
+
+@onready var JavaScript = JavaScriptBridge
 
 func _ready() -> void:
 	$Music.play()
@@ -86,3 +89,15 @@ func _on_pause_menu_resume_game() -> void:
 
 func _on_pause_menu_music_toggle() -> void:
 	$Music.stream_paused = not $Music.stream_paused
+
+func is_mobile_web() -> bool:
+	if OS.get_name() != "Web":
+		return false
+	
+	var js_code := """
+		(() => {
+			let ua = navigator.userAgent;
+			return /Android|iPhone|iPad|iPod|Mobile/i.test(ua);
+		})()
+	"""
+	return JavaScript.eval(js_code)

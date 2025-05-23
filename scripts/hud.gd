@@ -2,9 +2,11 @@ extends CanvasLayer
 
 signal start_game
 
+var parent := get_parent()
+
 func _ready() -> void:
-	$controlGuide1.hide()
-	$controlGuide2.hide()
+	$controlGuide.hide()
+	$MobileButton.hide()
 
 func show_message(text):
 	$message.text = text
@@ -13,8 +15,8 @@ func show_message(text):
 	
 func show_game_over():
 	show_message("Game Over!")
-	$controlGuide1.hide()
-	$controlGuide2.hide()
+	$controlGuide.hide()
+	$MobileButton.hide()
 	
 	await $messageTimer.timeout
 	
@@ -31,8 +33,11 @@ func update_score(score):
 func _on_start_button_pressed():
 	$startButton.hide()
 	start_game.emit()
-	$controlGuide1.show()
-	$controlGuide2.show()
+	
+	if (parent as parentScript).is_mobile_web():
+		$MobileButton.show()
+	else:
+		$controlGuide.show()
 
 
 func _on_message_timer_timeout() -> void:
