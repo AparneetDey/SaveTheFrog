@@ -5,11 +5,8 @@ class_name parentScript
 var score
 var game_started = false
 
-@onready var JavaScript = JavaScriptBridge
-
 func _ready() -> void:
 	$Music.play()
-	$Player.hide()
 	$PauseMenu.hide()
 
 func game_over():
@@ -68,11 +65,14 @@ func _on_score_timer_timeout() -> void:
 		$mobTimer.wait_time = 0.5
 	else:
 		$mobTimer.wait_time = 0.25
-	
-func _process(delta: float) -> void:
+		
+func _input(event):
 	if Input.is_action_just_pressed("pause") and game_started:
-		get_tree().paused = not get_tree().paused
-		$PauseMenu.show()
+		pause_game()
+
+func pause_game():
+	get_tree().paused = not get_tree().paused
+	$PauseMenu.show()
 
 func _on_start_timer_timeout() -> void:
 	$scoreTimer.start()
@@ -90,7 +90,7 @@ func _on_pause_menu_resume_game() -> void:
 func _on_pause_menu_music_toggle() -> void:
 	$Music.stream_paused = not $Music.stream_paused
 
-func is_mobile_web() -> bool:
+func is_mobile_web():
 	if OS.get_name() != "Web":
 		return false
 	
@@ -100,4 +100,6 @@ func is_mobile_web() -> bool:
 			return /Android|iPhone|iPad|iPod|Mobile/i.test(ua);
 		})()
 	"""
+	
+	var JavaScript = JavaScriptBridge
 	return JavaScript.eval(js_code)

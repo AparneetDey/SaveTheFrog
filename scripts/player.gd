@@ -1,4 +1,5 @@
 extends Area2D
+
 signal hit
 
 @export var speed = 250 #Max speed
@@ -38,6 +39,8 @@ func _ready():
 func _input(event):
 	if is_game_started:
 		if event is InputEventMouseButton and event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT: #Left mouse click to set a direction for object to move
+			if is_click_on_ui(event):
+				return
 			target_position = get_global_mouse_position() #getting mouse clicked coordinates
 			input = (target_position - position).normalized() #setting direction of target with respect to current position
 			if input.length() != 0:
@@ -50,12 +53,7 @@ func _input(event):
 			$RippleEffect.play()
 		
 		if event is InputEventMouseButton and event.is_pressed() and event.button_index == MOUSE_BUTTON_RIGHT and not is_dashing and dash_cooldown_timer <= 0.0: #Rigth mouse click for object to dash
-			is_dashing = true
-			dash_timer = dash_duration
-			dash_cooldown_timer = dash_cooldown
-			dash_direction = velocity.normalized() #Das direction is the direction the object is moving
-			
-			$DashEffect.play()
+			dash_logic()
 
 func _process(delta):
 	
@@ -95,3 +93,20 @@ func _on_body_entered(body: Node2D) -> void:
 	hide()
 	hit.emit()
 	$CollisionShape2D.set_deferred("disabled", true)
+
+func is_click_on_ui(event: InputEventMouseButton) -> bool:
+	var mouse_pos = event.position
+	var ui_elements = get_tree().get_nodes_in_group("ui_blocks")
+
+	for ui in ui_elements:
+		if ui is Control and ui.visible and ui.get_global_rect().has_point(mouse_pos):
+			return true
+	return false
+
+func dash_logic():
+	is_dashing = true
+	dash_timer = dash_duration
+	dash_cooldown_timer = dash_cooldown
+	dash_direction = velocity.normalized() if velocity.length() != 0 else Vector2.UP #Das direction is the direction the object is moving
+	
+	$DashEffect.play()

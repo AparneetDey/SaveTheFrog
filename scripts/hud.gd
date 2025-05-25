@@ -2,9 +2,11 @@ extends CanvasLayer
 
 signal start_game
 
-var parent := get_parent()
+@onready var parent := get_parent()
+@onready var player := get_node("../Player")
 
 func _ready() -> void:
+	print("Player: ",player)
 	$controlGuide.hide()
 	$MobileButton.hide()
 
@@ -34,7 +36,7 @@ func _on_start_button_pressed():
 	$startButton.hide()
 	start_game.emit()
 	
-	if (parent as parentScript).is_mobile_web():
+	if parent.is_mobile_web():
 		$MobileButton.show()
 	else:
 		$controlGuide.show()
@@ -42,3 +44,12 @@ func _on_start_button_pressed():
 
 func _on_message_timer_timeout() -> void:
 	$message.hide()
+
+
+func _on_pause_button_pressed() -> void:
+	print("pressed")
+	parent.pause_game()
+
+
+func _on_dash_button_pressed() -> void:
+	player.dash_logic()
